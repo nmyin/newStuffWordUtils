@@ -82,8 +82,7 @@ public class EveryWord {
 		for (int a = 0; a < word.length(); a++){
 			char c = word.charAt(a);
 			if (letters.indexOf(c) > -1){
-				letters = letters.subString(0, letters.indexOf(c)) + 
-							letters.subString(letters.indexOf(c)+1);
+				letters = letters.substring(0, letters.indexOf(c)) + letters.substring(letters.indexOf(c)+1);
 			}
 			else
 				return false;

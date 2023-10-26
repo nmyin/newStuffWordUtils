@@ -21,17 +21,14 @@ public class WordUtils
 	
 	/* Constructor */
 	public WordUtils() {
-	clearArrays();	
+		loadWord();
 	}
 	
 	/**	Load all of the dictionary from a file into words array. */
-	private void loadWords () { 
-		FileUtils newFile = new FileUtils(WORD_FILE);
-		int i = 0;
-		while (newFile.hasNext()){
+	private void loadWords () {
+		Scanner newFile = FileUtils.openToRead(WORD_FILE);
+		while (newFile.hasNext())
 			words[i] = newFile.nextLine();
-			i++;
-		}
 		
 	}
 	
@@ -43,17 +40,24 @@ public class WordUtils
 	 *  @return  true if the word matches the letters, false otherwise
 	 */
 	public boolean isWordMatch (String word, String letters) {
-		for (int a = 0; a < word.length(); a++){
+		for (int i = 0; i < word; i++){
+			for (int j = 0; j < letters; j++){
+				if (!word.charAt(i).equals(letters.charAt(j)))
+					return false;
+			}
+		}
+		return true;
+		/**for (int a = 0; a < word.length(); a++){
 			char c = word.charAt(a);
 			if (letters.indexOf(c) > -1){
-				letters = letters.subString(0, letters.indexOf(c)) + 
-							letters.subString(letters.indexOf(c)+1);
+				letters = letters.substring(0, letters.indexOf(c)) + 
+							letters.substring(letters.indexOf(c)+1);
 			}
 			else
 				return false;
 		}
 		
-		return true;
+		return true;*/
 	}
 	/** ADDED ON
 	 *  Find all the words that match a string of letters.
@@ -63,9 +67,9 @@ public class WordUtils
 	 *	@param letters		the letters to match
 	 */
 	public void findWords(String letters) {
-		Scanner input = FileUtils.openToRead(INFILE_NAME);
-		while (input.hasNext()){
-			String word = input.next();
+		Scanner fileNew = FileUtils.openToRead(INFILE_NAME);
+		while (fileNew.hasNext()){
+			String word = fileNew.next();
 			if (isWordMatch(word,letters)){
 				int numChars = word.length();
 				words[numChars][numWords[numChars]] = word;
@@ -104,7 +108,11 @@ public class WordUtils
 	 */
 	public String bestWord (String [] wordList, int [] scoreTable)
 	{
-		
+		for (int g = 0; g < wordList.length; g++){
+			for (int f = 0; f < wordList[g].length; f++){
+				scoreTable[(int)(wordList[g].charAt(f))-97]++;
+			}
+		}
 		return "";
 	}
 	
